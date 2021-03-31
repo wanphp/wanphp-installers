@@ -19,7 +19,7 @@ class Installer extends LibraryInstaller
    */
   public function getPackageBasePath(PackageInterface $package)
   {
-    $prefix = substr($package->getPrettyName(), 0, 23);
+    $prefix = substr($package->getPrettyName(), 0, 16);
     if ('wanphp/composer-' !== $prefix) {
       throw new \InvalidArgumentException(
         '不能安装扩展, Wanphp 扩展应以"wanphp/composer-"开头。'
