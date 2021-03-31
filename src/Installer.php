@@ -29,6 +29,15 @@ class Installer extends LibraryInstaller
     return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
   }
 
+  public function getInstallPath(PackageInterface $package): string
+  {
+    $prefix = substr($package->getPrettyName(), 0, 16);
+    if ('wanphp/composer-' === $prefix) $path = 'wanphp/extend/' . substr($package->getPrettyName(), 16);
+
+    return $path ?: parent::getInstallPath($package);
+  }
+
+
   /**
    * {@inheritDoc}
    */
