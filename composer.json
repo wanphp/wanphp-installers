@@ -1,6 +1,6 @@
 {
-  "name": "wanphp/composer-installers-extender",
-  "description": "composer 安装wanphp扩展",
+  "name": "wanphp/installers",
+  "description": "Wanphp Composer library installer",
   "homepage": "http://www.wanphp.com/",
   "type": "composer-plugin",
   "license": "MIT",
@@ -11,10 +11,10 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
-    "composer/composer": "^2.0",
-    "composer-plugin-api": "^1.1 || ^2.0",
-    "composer/installers": "^1.0"
+    "composer-plugin-api": "^1.1 || ^2.0"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0"
   },
   "autoload": {
     "psr-4": {

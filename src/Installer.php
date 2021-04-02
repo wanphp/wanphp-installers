@@ -14,35 +14,44 @@ use Composer\Package\PackageInterface;
 
 class Installer extends LibraryInstaller
 {
+  private $locations = array(
+    'libray' => 'wanphp/libray/',
+    'plugin' => 'wanphp/plugins/',
+    'extend' => 'wanphp/extend/',
+    'component' => 'wanphp/components/'
+  );
+
   /**
    * {@inheritDoc}
    */
   public function getPackageBasePath(PackageInterface $package)
   {
     $prefix = substr($package->getPrettyName(), 0, 16);
-    if ('wanphp/composer-' !== $prefix) {
-      throw new \InvalidArgumentException(
-        '不能安装扩展, Wanphp 扩展应以"wanphp/composer-"开头。'
-      );
+    if ('wanphp/composer-' === $prefix) {
+      $key = substr($package->getType(), 7);
+      if (isset($this->locations[$key])) return $this->locations[$key] . substr($package->getPrettyName(), 16);
+      else return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
     }
-
-    return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
+    return parent::getInstallPath($package);
   }
 
   public function getInstallPath(PackageInterface $package): string
   {
     $prefix = substr($package->getPrettyName(), 0, 16);
-    if ('wanphp/composer-' === $prefix) $path = 'wanphp/extend/' . substr($package->getPrettyName(), 16);
-
-    return $path ?: parent::getInstallPath($package);
+    if ('wanphp/composer-' === $prefix) {
+      $key = substr($package->getType(), 7);
+      if (isset($this->locations[$key])) return $this->locations[$key] . substr($package->getPrettyName(), 16);
+      else return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
+    }
+    return parent::getInstallPath($package);
   }
-
 
   /**
    * {@inheritDoc}
    */
   public function supports($packageType)
   {
-    return 'wanphp-extend' === $packageType;
+    $key = substr($packageType, 7);
+    return isset($this->locations[$key]);
   }
 }
