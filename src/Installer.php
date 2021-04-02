@@ -26,22 +26,24 @@ class Installer extends LibraryInstaller
    */
   public function getPackageBasePath(PackageInterface $package)
   {
-    $prefix = substr($package->getPrettyName(), 0, 16);
-    if ('wanphp/composer-' === $prefix) {
+    $prefix = substr($package->getPrettyName(), 0, 7);
+    if ('wanphp/' === $prefix) {
       $key = substr($package->getType(), 7);
-      if (isset($this->locations[$key])) return $this->locations[$key] . substr($package->getPrettyName(), 16);
-      else return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
+      $path = explode('-', $package->getPrettyName(), 2);
+      if (isset($this->locations[$key])) return $this->locations[$key] . $path[1];
+      else return 'wanphp/extend/' . $path[1];
     }
-    return parent::getInstallPath($package);
+    return parent::getPackageBasePath($package);
   }
 
   public function getInstallPath(PackageInterface $package): string
   {
-    $prefix = substr($package->getPrettyName(), 0, 16);
-    if ('wanphp/composer-' === $prefix) {
+    $prefix = substr($package->getPrettyName(), 0, 7);
+    if ('wanphp/' === $prefix) {
       $key = substr($package->getType(), 7);
-      if (isset($this->locations[$key])) return $this->locations[$key] . substr($package->getPrettyName(), 16);
-      else return 'wanphp/extend/' . substr($package->getPrettyName(), 16);
+      $path = explode('-', $package->getPrettyName(), 2);
+      if (isset($this->locations[$key])) return $this->locations[$key] . $path[1];
+      else return 'wanphp/extend/' . $path[1];
     }
     return parent::getInstallPath($package);
   }
