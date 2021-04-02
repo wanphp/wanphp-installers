@@ -39,11 +39,9 @@ class Installer extends LibraryInstaller
   public function getInstallPath(PackageInterface $package): string
   {
     $prefix = substr($package->getPrettyName(), 0, 7);
-    $this->io->write(sprintf('Install %s - %s', $package->getPrettyName(), $prefix));
     if ('wanphp/' === $prefix) {
       $key = substr($package->getType(), 7);
       $path = explode('-', $package->getPrettyName(), 2);
-      $this->io->write($this->locations[$key] . $path[1]);
       if (isset($this->locations[$key])) return $this->locations[$key] . $path[1];
       else return 'wanphp/extend/' . $path[1];
     }
@@ -55,7 +53,6 @@ class Installer extends LibraryInstaller
    */
   public function supports($packageType)
   {
-    $this->io->write('Supports' . $packageType);
     $key = substr($packageType, 7);
     return isset($this->locations[$key]);
   }
